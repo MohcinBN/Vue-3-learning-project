@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from '../components/HelloWorld.vue'
+import HomeList from '../components/HomeList.vue'
 </script>
 
 <template>
   <main>
-    <HelloWorld />
+    <HomeList />
   </main>
 </template>
