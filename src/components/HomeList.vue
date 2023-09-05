@@ -67,7 +67,7 @@ export default {
     const pagination_articles = computed(() => {
       const start = (current_page.value -1) * article_per_page;
       const end = start + article_per_page;
-      return articles.value.slice(start, end);
+      return articles.value.slice(start, end).filter(article => article.title !== '[Removed]');
     });
 
     const next_page = () => {
