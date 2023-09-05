@@ -6,7 +6,7 @@
       <h1>Latest News Added</h1>
       <br>
         <ul>
-          <li v-for="(article, index) in filtered_articles" :key="index">
+          <li v-for="(article, index) in pagination_articles" :key="index">
               <h2>{{ article.title }}</h2>
               <img :src="article.urlToImage" alt="" srcset="">
               <p>{{ article.description }}</p>
@@ -70,17 +70,19 @@ export default {
       return articles.value.slice(start, end);
     });
 
-    const previous_page = () => {
+    const next_page = () => {
         if(current_page.value < total_page.value) {
           current_page.value++;
         }
     };
 
-    const next_page = () => {
+    const previous_page = () => {
       if(current_page.value > 1) {
           current_page.value--;
         }
     };
+
+    console.log(total_page.value);
 
     // return the 'articles' variable for use in our template
     return {
