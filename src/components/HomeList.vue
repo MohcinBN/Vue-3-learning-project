@@ -13,6 +13,12 @@
               <p><a :href="article.url" target="_blank">read more -></a></p>
           </li>
         </ul>
+
+        <div class="pagination">
+        <button class="btn btn-light" @click="previous_page" :disabled="current_page === 1">Previous</button>
+        <span>{{ current_page }} / {{ total_page }}</span>
+        <button class="btn btn-light" @click="next_page" :disabled="current_page === total_page">Next</button>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +35,11 @@ export default {
     const articles = ref([]);
     const API_KEY = 'a3dce55aedc249f5abf8b93c7ffa5b46';
     const api_url = `https://newsapi.org/v2/everything?q=Apple&from=2023-08-28-04&sortBy=popularity&apiKey=${API_KEY}`;
+
+    const current_page = ref(1);
+    const article_per_page = 10;
+    // i puted the totale page into computed property to calculate the totale page every time the data has new changes.
+    const total_page = computed(()=> Math.ceil(articles.value.length / article_per_page));
     
 
     // fetch articles (DATA) from the API
@@ -52,10 +63,34 @@ export default {
       return articles.value.filter(article => article.title !== '[Removed]');
     });
 
+    // pagination functions
+    const pagination_articles = computed(() => {
+      const start = (current_page.value -1) * article_per_page;
+      const end = start + article_per_page;
+      return articles.value.slice(start, end);
+    });
+
+    const previous_page = () => {
+        if(current_page.value < total_page.value) {
+          current_page.value++;
+        }
+    };
+
+    const next_page = () => {
+      if(current_page.value > 1) {
+          current_page.value--;
+        }
+    };
+
     // return the 'articles' variable for use in our template
     return {
       articles,
       filtered_articles,
+      current_page,
+      total_page,
+      pagination_articles,
+      previous_page,
+      next_page
     };
 
   },
