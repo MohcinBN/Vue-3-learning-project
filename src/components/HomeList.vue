@@ -14,7 +14,7 @@
           </li>
         </ul>
 
-        <div class="pagination">
+      <div class="pagination">
         <button class="btn btn-light" @click="previous_page" :disabled="current_page === 1">Previous</button>
         <span>{{ current_page }} / {{ total_page }}</span>
         <button class="btn btn-light" @click="next_page" :disabled="current_page === total_page">Next</button>
