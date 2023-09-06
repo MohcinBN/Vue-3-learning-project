@@ -10,7 +10,9 @@
               <h2>{{ article.title }}</h2>
               <img :src="article.urlToImage" alt="" srcset="">
               <p>{{ article.description }}</p>
-              <p><a :href="article.url" target="_blank">read more -></a></p>
+              
+              <!--I added index as parameter because the JSON format did not contain ID field-->
+              <RouterLink :to="{ name: 'article', params: { id: index } }">read more -></RouterLink>
           </li>
         </ul>
 
