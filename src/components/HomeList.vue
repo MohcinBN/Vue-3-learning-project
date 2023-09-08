@@ -5,6 +5,7 @@
     <div class="container col-md-8 mx-auto">
       <h1>Latest News Added</h1>
       <br>
+      <SearchInput :initialSearchTerm="searchTerm" @search="doSearch" />
         <ul>
           <li v-for="(article, index) in pagination_articles" :key="index">
               <h2>{{ article.title }}</h2>
@@ -28,13 +29,18 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
+import SearchInput from './SearchInput.vue';
 
 export default {
   name: 'NewsList',
+  components: {
+    SearchInput,
+  },
 
   setup() {
     // lets define a reactive empty array to store our articles
     const articles = ref([]);
+    const searchTerm = ref('');
     const API_KEY = 'a3dce55aedc249f5abf8b93c7ffa5b46';
     const api_url = `https://newsapi.org/v2/everything?q=Apple&from=2023-08-28-04&sortBy=popularity&apiKey=${API_KEY}`;
 
@@ -84,7 +90,10 @@ export default {
         }
     };
 
-    console.log(total_page.value);
+
+    const doSearch = (newSearchTerm) => {
+        searchTerm.value = newSearchTerm;
+    }
 
     // return the 'articles' variable for use in our template
     return {
@@ -94,7 +103,9 @@ export default {
       total_page,
       pagination_articles,
       previous_page,
-      next_page
+      next_page,
+      searchTerm,
+      doSearch,
     };
 
   },
