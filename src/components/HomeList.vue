@@ -5,6 +5,7 @@
     <div class="container col-md-8 mx-auto">
       <h1>Latest News Added</h1>
       <br>
+      <LoadingSpinner v-if="isSpinnerLoading"/>
       <SearchInput :searchTerm="searchTerm" @search="doSearch" />
         <ul>
           <li v-for="(article, index) in pagination_articles" :key="index">
@@ -30,11 +31,13 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import SearchInput from './SearchInput.vue';
+import LoadingSpinner from './LoadingSpinner.vue';
 
 export default {
   name: 'NewsList',
   components: {
     SearchInput,
+    LoadingSpinner,
   },
 
   setup() {
@@ -48,6 +51,8 @@ export default {
     const article_per_page = 10;
     // i puted the totale page into computed property to calculate the totale page every time the data has new changes.
     const total_page = computed(()=> Math.ceil(articles.value.length / article_per_page));
+
+    const isSpinnerLoading = ref(true);
     
 
     // fetch articles (DATA) from the API
@@ -58,8 +63,12 @@ export default {
         // update the reactive variable with the data tha comes from the API
         articles.value = response.data.articles;
 
+        // set the isSpinnerLoading to false after data is loaded
+        isSpinnerLoading.value = false;
+
       } catch (error) {
         console.error('Error fetching articles:', error);
+        isSpinnerLoading.value = false;
       }
     };
 
@@ -110,6 +119,7 @@ export default {
       next_page,
       searchTerm,
       doSearch,
+      isSpinnerLoading
     };
 
   },
