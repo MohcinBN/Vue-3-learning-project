@@ -5,7 +5,7 @@
     <div class="container col-md-8 mx-auto">
       <h1>Latest News Added</h1>
       <br>
-      <SearchInput :initialSearchTerm="searchTerm" @search="doSearch" />
+      <SearchInput :searchTerm="searchTerm" @search="doSearch" />
         <ul>
           <li v-for="(article, index) in pagination_articles" :key="index">
               <h2>{{ article.title }}</h2>
@@ -75,7 +75,11 @@ export default {
     const pagination_articles = computed(() => {
       const start = (current_page.value -1) * article_per_page;
       const end = start + article_per_page;
-      return articles.value.slice(start, end).filter(article => article.title !== '[Removed]');
+      return articles.value
+      .filter(article => article.title !== '[Removed]')
+      // Add filtering based on searchTerm
+      .filter(article => article.title.toLowerCase().includes(searchTerm.value.toLowerCase()))
+      .slice(start, end);
     });
 
     const next_page = () => {
@@ -92,8 +96,8 @@ export default {
 
 
     const doSearch = (newSearchTerm) => {
-        searchTerm.value = newSearchTerm;
-    }
+    searchTerm.value = newSearchTerm; // Update the searchTerm in the parent component
+  }
 
     // return the 'articles' variable for use in our template
     return {
