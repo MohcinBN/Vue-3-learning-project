@@ -2,11 +2,13 @@
   <div class="col-md-8 mx-auto py-4">
     <form @submit.prevent="publish" ref="articleForm">
       <div class="form-floating mb-3" :class="{'error': titleError}">
-        <input v-model="title" type="text" class="form-control" id="text" placeholder="The article title">
+        <input v-model="title" type="text" class="form-control" id="text" placeholder="The article title" 
+        @focus="removeErrorsInFocus">
         <label for="text">Title</label>
       </div>
       <div class="form-floating mb-3" :class="{'error': bodyError}">
-        <textarea v-model="body" name="body" id="body" class="form-control" placeholder="Body"></textarea>
+        <textarea v-model="body" name="body" id="body" class="form-control" placeholder="Body"
+        @focus="removeErrorsInFocus"></textarea>
         <label for="body">Body</label>
       </div>
       <button class="btn btn-success" type="submit">Post it!</button>
@@ -50,6 +52,14 @@ export default {
       // this.$refs.articleForm.reset();
 
       console.log(articleObject);
+    },
+    removeErrorsInFocus() {
+      let formElements = this.$refs.articleForm;
+        if (formElements) {
+          formElements.focus();
+          this.titleError = false;
+          this.bodyError = false;
+        }
     },
   },
 };
