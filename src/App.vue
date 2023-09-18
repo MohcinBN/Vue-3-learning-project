@@ -9,7 +9,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       <nav class="d-flex">
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/add-new">Add New Article</RouterLink>
       </nav>
     </div>
   </header>
